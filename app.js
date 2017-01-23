@@ -13,18 +13,20 @@ $(function() {
     {
         var st = $(this).scrollTop();
         var windowHeight = $(window).height(); 
-        // console.log("windowHeight : "+windowHeight);
+        console.log("windowHeight : "+windowHeight);
 
         // when user scrolls DOWN
         if (st > lastScrollTop)
         {
             // if window's height LESS than header's height plus sidebar's height
-            if(windowHeight <= (headerHeight + sidebarHeight + 15) ) // 710 + 18 + 15 742 
+            if(windowHeight <= (sidebarHeight + headerHeight + 15) ) // 710 + 18 + 15 742 
             {
                 console.log("A 1");
+                // if scroll passed the sidebar
                 if ( ($(window).scrollTop() + $(window).height()) > (sidebarHeight + 33) )  
                 {
                     console.log("A 1.1");
+                    // if scroll passed the footer
                     if( ($(window).scrollTop() + $(window).height()) > (topFooter+15) ) 
                     {
                         console.log("A 1.1.1");
@@ -33,31 +35,68 @@ $(function() {
                             "top": $(window).height() - (sidebarHeight+footerHeight+15)
                         });
                     }
-                    else
+                    else // if scroll passed the header but NOT the footer yet
                     {
                         console.log("A 1.1.2");
                         $("#sidebar").css({
                             "position": "fixed",
                             "top": ($(window).height()) - (sidebarHeight+headerHeight)
                         });
-                        var top = ($(window).height()) - (sidebarHeight+headerHeight);
-                        console.log("Top : "+top);
                     }
                 }
-                else
+                else // if scroll DOESN'T pass the sidebar yet
                 {
                     console.log("A 1.2");
                     $("#sidebar").css("position","static");
                 }
             }
-            else 
+            else // if window's height HIGHER than header's height plus sidebar's height
             {
                 console.log("A 2");
-                //console.log("Hi, there .. your window is higher than sidebar plus header");
-                $("#sidebar").css({
-                    "position": "fixed",
-                    "top": "5px"
-                });
+                // if scroll passed the sidebar
+                if ( ($(window).scrollTop() + $(window).height()) > (sidebarHeight + 33) )  
+                {
+                    console.log("A 2.1");
+                    // if scroll passed the footer
+                    if( ($(window).scrollTop() + $(window).height()) > (topFooter+15) ) 
+                    {
+                        console.log("A 2.1.1");
+                        // $("#sidebar").css({
+                        //     "position": "fixed",
+                        //     "top": $(window).height() - (sidebarHeight+footerHeight+15)
+                        // });
+
+                        if(windowHeight >= 927)
+                        {
+                            $("#sidebar").css({
+                                "position": "fixed",
+                                "top": "5px"
+                            });
+                        }
+                        else 
+                        {
+                            $("#sidebar").css({
+                                "position": "fixed",
+                                "top": $(window).height() - (sidebarHeight+footerHeight+15)
+                            });
+                        }
+                       
+                    }
+                    else
+                    {
+                        console.log("A 2.1.2");
+                        $("#sidebar").css({
+                            "position": "fixed",
+                            "top": "5px"
+                        });
+                    }
+                }
+                else // if scroll DOESN'T pass the sidebar yet
+                {
+                    console.log("A 2.2");
+                    $("#sidebar").css("position","static");
+                }
+
             }
 
         }
